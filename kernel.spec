@@ -108,7 +108,7 @@
 %define _binary_payload w3T.xzdio
 %endif
 
-Summary: The Linux kernel
+Summary: The Linux kernel DG2 HuC MEI GSC XE
 %if 0%{?fedora}
 %define secure_boot_arch x86_64 aarch64
 %else
@@ -186,15 +186,16 @@ Summary: The Linux kernel
 #  to build the base kernel using the debug configuration. (Specifying
 #  the --with-release option overrides this setting.)
 %define debugbuildsenabled 1
-# define buildid .local
-%define specrpmversion 7.2.0
-%define specversion 7.2.0
-%define patchversion 7.2
-%define pkgrelease 0.rc5.41
+%global fedora 44
+%define buildid 01.DG2_HuC_MEI_GSC_XE
+%define specrpmversion 7.1.5
+%define specversion 7.1.5
+%define patchversion 7.1
+%define pkgrelease 1
 %define kversion 7
-%define tarfile_release 7.2-rc5
+%define tarfile_release 7.1.5
 # This is needed to do merge window version magic
-%define patchlevel 2
+%define patchlevel 1
 # This allows pkg_release to have configurable %%{?dist} tag
 %define specrelease 0.rc5.41%{?buildid}%{?dist}
 # This defines the kabi tarball version
@@ -339,7 +340,9 @@ Summary: The Linux kernel
 %define with_gcov %{?_with_gcov:1}%{?!_with_gcov:0}
 
 # Want to build a vanilla kernel build without any non-upstream patches?
-%define with_vanilla %{?_with_vanilla: 1} %{?!_with_vanilla: 0}
+%define with_vanilla 1
+
+%define nopatches 1
 
 %ifarch x86_64 aarch64 riscv64
 %define with_efiuki %{?_without_efiuki: 0} %{?!_without_efiuki: 1}
@@ -779,7 +782,7 @@ Summary: The Linux kernel
 
 Name: %{package_name}
 License: ((GPL-2.0-only WITH Linux-syscall-note) OR CDDL-1.0) AND ((GPL-2.0-only WITH Linux-syscall-note) OR Linux-OpenIB) AND 0BSD AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND BSD-3-Clause-Clear AND CC0-1.0 AND GFDL-1.1-no-invariants-or-later AND GPL-1.0-or-later AND (GPL-1.0-or-later WITH Linux-syscall-note) AND GPL-2.0-only AND (GPL-2.0-only OR CDDL-1.0) AND (GPL-2.0-only OR GFDL-1.2-no-invariants-only) AND (GPL-2.0-only OR GFDL-1.2-no-invariants-or-later) AND (GPL-2.0-only WITH Linux-syscall-note) AND GPL-2.0-or-later AND (GPL-2.0-or-later OR CC-BY-4.0) AND (GPL-2.0-or-later WITH GCC-exception-2.0) AND (GPL-2.0-or-later WITH Linux-syscall-note) AND ISC AND LGPL-2.0-or-later AND (LGPL-2.0-or-later WITH Linux-syscall-note) AND LGPL-2.1-only AND (LGPL-2.1-only WITH Linux-syscall-note) AND LGPL-2.1-or-later AND (LGPL-2.1-or-later WITH Linux-syscall-note) AND (Linux-OpenIB OR GPL-2.0-only) AND (Linux-OpenIB OR GPL-2.0-only OR BSD-2-Clause) AND Linux-man-pages-copyleft AND MIT AND (MPL-1.1 OR GPL-2.0-only) AND (X11 OR GPL-2.0-only) AND (X11 OR GPL-2.0-or-later) AND Zlib AND (copyleft-next-0.3.1 OR GPL-2.0-or-later)
-URL: https://www.kernel.org/
+URL: https://github.com/danayer/linux-7.1.5
 Version: %{specrpmversion}
 Release: %{pkg_release}
 # DO NOT CHANGE THE 'ExclusiveArch' LINE TO TEMPORARILY EXCLUDE AN ARCHITECTURE BUILD.
@@ -804,7 +807,7 @@ Provides: installonlypkg(kernel)
 #
 # List the packages used during the kernel build
 #
-BuildRequires: kmod, bash, coreutils, tar, git-core, which
+BuildRequires: kmod, bash, coreutils, tar, git-core, which, unzip
 BuildRequires: bzip2, xz, findutils, m4, perl-interpreter, perl-Carp, perl-devel, perl-generators, make, diffutils, gawk, %compression
 # Kernel EFI/Compression set by CONFIG_KERNEL_ZSTD
 %ifarch x86_64 aarch64 riscv64
@@ -1002,7 +1005,7 @@ BuildRequires: redhat-sb-certs >= 9.4-0.1
 # exact git commit you can run
 #
 # xzcat -qq ${TARBALL} | git get-tar-commit-id
-Source0: linux-%{tarfile_release}.tar.xz
+Source0: https://github.com/danayer/linux-7.1.5/archive/refs/heads/main.zip
 
 Source1: Makefile.rhelver
 Source2: %{name}.changelog
@@ -1215,18 +1218,11 @@ Source4002: gating.yaml
 
 ## Patches needed for building this package
 
-%if !%{nopatches}
-
-Patch1: patch-%{patchversion}-redhat.patch
-%endif
-
-# empty final patch to facilitate testing of kernel patches
-Patch999999: linux-kernel-test.patch
 
 # END OF PATCH DEFINITIONS
 
 %description
-The %{name} meta package
+The %{name} meta package DG2 HuC MEI GSC XE
 
 # This macro does requires, provides, conflicts, obsoletes for a kernel package.
 #	%%kernel_reqprovconf [-o] <subpackage>
@@ -2183,23 +2179,17 @@ ApplyOptionalPatch()
   fi
 }
 
-%{log_msg "Untar kernel tarball"}
+%{log_msg "Unpack kernel zip archive"}
 %setup -q -n kernel-%{tarfile_release} -c
-mv linux-%{tarfile_release} linux-%{KVERREL}
+# GitHub добавляет суффикс -main к названию папки внутри zip-архива
+mv linux-%{tarfile_release}-main linux-%{KVERREL}
 
 cd linux-%{KVERREL}
 cp -a %{SOURCE1} .
 
 %{log_msg "Start of patch applications"}
-%if !%{nopatches}
-
-ApplyOptionalPatch patch-%{patchversion}-redhat.patch
-%endif
-
-ApplyOptionalPatch linux-kernel-test.patch
-
+%{log_msg "Patches disabled for this build"}
 %{log_msg "End of patch applications"}
-# END OF PATCH APPLICATIONS
 
 # Any further pre-build tree manipulations happen here.
 %{log_msg "Pre-build tree manipulations"}
