@@ -2339,6 +2339,7 @@ done
 
 %{log_msg "Set process_configs.sh $OPTS"}
 cp %{SOURCE81} .
+chmod +x process_configs.sh
 OPTS="-w -n -c"
 %if !%{with_configchecks}
 	OPTS="$OPTS -i"
