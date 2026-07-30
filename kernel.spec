@@ -2177,9 +2177,9 @@ ApplyOptionalPatch()
 
 %{log_msg "Unpack kernel zip archive"}
 %setup -q -n kernel-%{tarfile_release} -c
-# GitHub добавляет суффикс -main к названию папки внутри zip-архива
-mv linux-%{tarfile_release}-main linux-%{KVERREL}
+TOPDIR=$(find . -maxdepth 1 -mindepth 1 -type d | head -1)
 
+mv "$TOPDIR" linux-%{KVERREL}
 cd linux-%{KVERREL}
 cp -a %{SOURCE1} .
 
