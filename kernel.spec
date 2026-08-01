@@ -140,16 +140,13 @@ Summary: The Linux kernel DG2 HuC MEI GSC XE
 %global rhelkeys 1
 
 # Compress modules only for architectures that build modules
-%ifarch noarch
+# Module compression disabled globally for all architectures
 %global zipmodules 0
-%else
-%global zipmodules 1
-%endif
 
-# Default compression algorithm
-%global compression xz
-%global compression_flags --compress --check=crc32 --lzma2=dict=1MiB
-%global compext xz
+# Опционально: можно закомментировать или оставить (при zipmodules 0 они просто не будут использоваться)
+# %global compression xz
+# %global compression_flags --compress --check=crc32 --lzma2=dict=1MiB
+# %global compext xz
 
 %if 0%{?fedora}
 %define primary_target fedora
