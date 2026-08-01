@@ -187,7 +187,7 @@ Summary: The Linux kernel DG2 HuC MEI GSC XE
 #  the --with-release option overrides this setting.)
 %define debugbuildsenabled 1
 %global fedora 44
-%define buildid 05.DG2_HuC_MEI_GSC_XE
+%define buildid 07.DG2_HuC_MEI_GSC_XE
 %define specrpmversion 7.2.0
 %define specversion 7.2.0
 %define patchversion 7.1
