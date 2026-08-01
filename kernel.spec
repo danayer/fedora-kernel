@@ -187,7 +187,7 @@ Summary: The Linux kernel DG2 HuC MEI GSC XE
 #  the --with-release option overrides this setting.)
 %define debugbuildsenabled 1
 %global fedora 44
-%define buildid 01.DG2_HuC_MEI_GSC_XE
+%define buildid 05.DG2_HuC_MEI_GSC_XE
 %define specrpmversion 7.2.0
 %define specversion 7.2.0
 %define patchversion 7.1
@@ -781,7 +781,7 @@ Summary: The Linux kernel DG2 HuC MEI GSC XE
 
 Name: %{package_name}
 License: ((GPL-2.0-only WITH Linux-syscall-note) OR CDDL-1.0) AND ((GPL-2.0-only WITH Linux-syscall-note) OR Linux-OpenIB) AND 0BSD AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND BSD-3-Clause-Clear AND CC0-1.0 AND GFDL-1.1-no-invariants-or-later AND GPL-1.0-or-later AND (GPL-1.0-or-later WITH Linux-syscall-note) AND GPL-2.0-only AND (GPL-2.0-only OR CDDL-1.0) AND (GPL-2.0-only OR GFDL-1.2-no-invariants-only) AND (GPL-2.0-only OR GFDL-1.2-no-invariants-or-later) AND (GPL-2.0-only WITH Linux-syscall-note) AND GPL-2.0-or-later AND (GPL-2.0-or-later OR CC-BY-4.0) AND (GPL-2.0-or-later WITH GCC-exception-2.0) AND (GPL-2.0-or-later WITH Linux-syscall-note) AND ISC AND LGPL-2.0-or-later AND (LGPL-2.0-or-later WITH Linux-syscall-note) AND LGPL-2.1-only AND (LGPL-2.1-only WITH Linux-syscall-note) AND LGPL-2.1-or-later AND (LGPL-2.1-or-later WITH Linux-syscall-note) AND (Linux-OpenIB OR GPL-2.0-only) AND (Linux-OpenIB OR GPL-2.0-only OR BSD-2-Clause) AND Linux-man-pages-copyleft AND MIT AND (MPL-1.1 OR GPL-2.0-only) AND (X11 OR GPL-2.0-only) AND (X11 OR GPL-2.0-or-later) AND Zlib AND (copyleft-next-0.3.1 OR GPL-2.0-or-later)
-URL: https://github.com/danayer/drm.xe.kernel
+URL: https://gitlab.freedesktop.org/danayer/kernel/
 Version: %{specrpmversion}
 Release: %{pkg_release}
 # DO NOT CHANGE THE 'ExclusiveArch' LINE TO TEMPORARILY EXCLUDE AN ARCHITECTURE BUILD.
@@ -1004,7 +1004,7 @@ BuildRequires: redhat-sb-certs >= 9.4-0.1
 # exact git commit you can run
 #
 # xzcat -qq ${TARBALL} | git get-tar-commit-id
-Source0: https://github.com/danayer/drm.xe.kernel/archive/refs/heads/drm-xe-next.zip
+Source0: https://gitlab.freedesktop.org/danayer/kernel/-/archive/drm-xe-next/kernel-drm-xe-next.zip
 
 Source1: Makefile.rhelver
 Source2: %{name}.changelog
